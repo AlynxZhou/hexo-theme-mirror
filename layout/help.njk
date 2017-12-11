@@ -2,45 +2,20 @@
   <div class="container">
     <div class="row">
       <div id="helpList">
-        <!-- <div class="col-sm-2 hidden-xs">
-          <ul class="nav nav-pills nav-stacked" id="help-nav">
-            {% if is_current("/help/", "strict") %}
-            <li class="active"><a href="/help/">index</a></li>
-            {% else %}
-            <li><a href="/help">index</a></li>
-            {% endif %}
-            {% for k, v in site.data.descHelp %}
-              {% if is_current(v["help"]) %}
-            <li class="active"><a href="{{ v["help"] }}">{{ k }}</a></li>
-              {% else %}
-            <li><a href="{{ v["help"] }}">{{ k }}</a></li>
-              {% endif %}
-            {% endfor %}
-          </ul>
+        <div class="sk-wave col-sm-2 hidden-xs">
+          <div class="sk-rect sk-rect1"></div>
+          <div class="sk-rect sk-rect2"></div>
+          <div class="sk-rect sk-rect3"></div>
+          <div class="sk-rect sk-rect4"></div>
+          <div class="sk-rect sk-rect5"></div>
         </div>
-        <div class="col-sm-10">
-          <div class="visible-xs">
-            <form class="form-inline">
-              <div class="form-group">
-                <label>选择帮助条目: </label>
-                <select class="form-control" id="help-select">
-                  {% if is_current("/help/", "strict") %}
-                  <option data-help-url="/help/" selected>index</option>
-                  {% else %}
-                  <option data-help-url="/help/">index</option>
-                  {% endif %}
-                  {% for k, v in site.data.descHelp %}
-                    {% if is_current(v["help"]) %}
-                  <option data-help-url="{{ v["help"] }}" selected>{{ k }}</option>
-                    {% else %}
-                  <option data-help-url="{{ v["help"] }}">{{ k }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-              </div>
-            </form>
-          </div>
-        </div> -->
+        <div class="sk-wave col-sm-10 visible-xs">
+          <div class="sk-rect sk-rect1"></div>
+          <div class="sk-rect sk-rect2"></div>
+          <div class="sk-rect sk-rect3"></div>
+          <div class="sk-rect sk-rect4"></div>
+          <div class="sk-rect sk-rect5"></div>
+        </div>
       </div>
       <div class="content col-sm-10">
         <h1>{{ page.title }}</h1>
@@ -49,7 +24,7 @@
     </div>
   </div>
   <script type="text/javascript">
-    $(document).ready(function () {
+    function buildHelpList(intervalID) {
       $.getJSON("/help/desc_help.json", function (descHelp) {
         var innerHTML = "";
         var currentPath = window.document.location.pathname;
@@ -74,7 +49,7 @@
             }
           }
         }
-        innerHTML += "</ul></div><div class=\"col-sm-10\"><div class=\"visible-xs\"><form class=\"form-inline\"><div class=\"form-group\"><label>选择帮助条目: </label><select onchange=\"location = this.value;\" class=\"form-control\" id=\"help-select\">";
+        innerHTML += "</ul></div><div class=\"col-sm-10 visible-xs\"><form class=\"form-inline\"><div class=\"form-group\"><label>选择帮助条目: </label><select onchange=\"location = this.value;\" class=\"form-control\" id=\"help-select\">";
         if (currentPath === "/help/") {
           innerHTML += "<option value=\"/help/\" selected>index</option>";
         } else {
@@ -89,9 +64,19 @@
             }
           }
         }
-        innerHTML += "</select></div></form></div></div>";
+        innerHTML += "</select></div></form></div>";
         $("#helpList").empty().append(innerHTML);
+        if (intervalID !== null) {
+          clearInterval(intervalID);
+        }
       });
+    }
+    $(document).ready(function () {
+      var intervalID = null;
+      buildHelpList(intervalID);
+      intervalID = setInterval(function () {
+        buildHelpList(intervalID)
+      }, 10000);
     });
   </script>
 {% endblock %}
