@@ -1,0 +1,20 @@
+{% block header %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="{{ theme.keywords }}">
+	<meta name="subtitle" content="{{ config.subtitle }}">
+	<meta name="description" content="{{ config.description }}">
+	<meta name="author" content="{{ config.author }}">
+	<title>{{ page.title + " - " + config.title }}</title>
+	<link rel="icon" type="image/x-icon" href="{{ url_for(theme.favicon) }}">
+	<link rel="shortcut icon" type="image/x-icon" href="{{ url_for(theme.favicon) }}">
+	<link rel="stylesheet" href="{{ url_for("css/index.css") }}">
+	<link rel="stylesheet" href="{{ url_for("css/bootstrap.min.css") }}">
+	<link rel="stylesheet" href="{{ url_for("css/bootstrap-theme.min.css") }}">
+	<link rel="stylesheet" href="{{ url_for("css/font-awesome.min.css") }}">
+	<script type="text/javascript" src="{{ url_for("js/jquery.min.js") }}"></script>
+	<script type="text/javascript" src="{{ url_for("js/bootstrap.min.js") }}"></script>
+	<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.0.0/normalize.min.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700" rel="stylesheet" type="text/css"> -->
+	<!-- <link href="{{ url_for("css/index.css") }}" rel="stylesheet"> -->
+{% endblock %}

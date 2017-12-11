@@ -1,0 +1,33 @@
+{% block footer %}
+  <footer class="footer">
+    <script type="text/javascript">
+      var cur = Date.now();
+    </script>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3">
+          {% if theme.since and theme.since != date(cur, "YYYY") %}
+            <p>CopyLeft © {{ theme.since }} - {{ date(cur, "YYYY") }} <a href="{{ theme.owner.link }}" target="_blank">{{ theme.owner.name }}</a></p>
+          {% else %}
+            <p>CopyLeft © {{ date(cur, "YYYY") }} <a href="{{ theme.owner.link }}" target="_blank">{{ theme.owner.name }}</a>.</p>
+          {% endif %}
+          <p>由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力推进</p>
+          <p>使用 <a href="https://github.com/ideal/mirror/" target="_blank">mirror</a> 作为镜像管理器</p>
+          {% if theme.busuanzi %}
+            {% include "busuanzi.njk" %}
+          {% endif %}
+        </div>
+        <div class="col-lg-5 col-md-5">
+          {% if theme.info %}
+            {{ theme.info }}
+          {% endif %}
+        </div>
+        <div class="col-lg-4 col-md-4">
+          {% if theme.footer_logo %}
+            <img class="img-responsive" height=110px width=110px src="{{ theme.footer_logo }}">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </footer>
+{% endblock %}

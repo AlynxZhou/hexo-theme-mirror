@@ -1,0 +1,97 @@
+{% block help %}
+  <div class="container">
+    <div class="row">
+      <div id="helpList">
+        <!-- <div class="col-sm-2 hidden-xs">
+          <ul class="nav nav-pills nav-stacked" id="help-nav">
+            {% if is_current("/help/", "strict") %}
+            <li class="active"><a href="/help/">index</a></li>
+            {% else %}
+            <li><a href="/help">index</a></li>
+            {% endif %}
+            {% for k, v in site.data.descHelp %}
+              {% if is_current(v["help"]) %}
+            <li class="active"><a href="{{ v["help"] }}">{{ k }}</a></li>
+              {% else %}
+            <li><a href="{{ v["help"] }}">{{ k }}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-sm-10">
+          <div class="visible-xs">
+            <form class="form-inline">
+              <div class="form-group">
+                <label>选择帮助条目: </label>
+                <select class="form-control" id="help-select">
+                  {% if is_current("/help/", "strict") %}
+                  <option data-help-url="/help/" selected>index</option>
+                  {% else %}
+                  <option data-help-url="/help/">index</option>
+                  {% endif %}
+                  {% for k, v in site.data.descHelp %}
+                    {% if is_current(v["help"]) %}
+                  <option data-help-url="{{ v["help"] }}" selected>{{ k }}</option>
+                    {% else %}
+                  <option data-help-url="{{ v["help"] }}">{{ k }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </form>
+          </div>
+        </div> -->
+      </div>
+      <div class="content col-sm-10">
+        <h1>{{ page.title }}</h1>
+        {{ page.content }}
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $.getJSON("/help/desc_help.json", function (descHelp) {
+        var innerHTML = "";
+        var currentPath = window.document.location.pathname;
+        if (currentPath.charAt(0) !== '/') {
+          currentPath = "/" + currentPath;
+        }
+        if (currentPath.charAt(currentPath.length - 1) !== '/') {
+          currentPath += "/";
+        }
+        innerHTML += "<div class=\"col-sm-2 hidden-xs\"><ul class=\"nav nav-pills nav-stacked\" id=\"help-nav\">";
+        if (currentPath === "/help/") {
+          innerHTML += "<li class=\"active\"><a href=\"/help/\">index</a></li>";
+        } else {
+          innerHTML += "<li><a href=\"/help/\">index</a></li>";
+        }
+        for (mirror in descHelp) {
+          if (descHelp[mirror]["help"]) {
+            if (currentPath === descHelp[mirror]["help"]) {
+              innerHTML += ("<li class=\"active\"><a href=\"" + descHelp[mirror]["help"] + "\">" + mirror + "</a></li>");
+            } else {
+              innerHTML += ("<li><a href=\"" + descHelp[mirror]["help"] + "\">" + mirror + "</a></li>");
+            }
+          }
+        }
+        innerHTML += "</ul></div><div class=\"col-sm-10\"><div class=\"visible-xs\"><form class=\"form-inline\"><div class=\"form-group\"><label>选择帮助条目: </label><select onchange=\"location = this.value;\" class=\"form-control\" id=\"help-select\">";
+        if (currentPath === "/help/") {
+          innerHTML += "<option value=\"/help/\" selected>index</option>";
+        } else {
+          innerHTML += "<option value=\"/help/\">index</option>";
+        }
+        for (mirror in descHelp) {
+          if (descHelp[mirror]["help"]) {
+            if (currentPath === descHelp[mirror]["help"]) {
+              innerHTML += ("<option value=\"" + descHelp[mirror]["help"] + "\" selected>" + mirror + "</option>");
+            } else {
+              innerHTML += ("<option value=\"" + descHelp[mirror]["help"] + "\">" + mirror + "</option>");
+            }
+          }
+        }
+        innerHTML += "</select></div></form></div></div>";
+        $("#helpList").empty().append(innerHTML);
+      });
+    });
+  </script>
+{% endblock %}

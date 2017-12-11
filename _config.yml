@@ -1,0 +1,40 @@
+# Your site keywords.
+keywords: 开源镜像,北交大开源镜像,mirror,open source,BJTU
+
+# Your site menu.
+menu:
+  home:
+    name: 首页
+    path: /
+  help:
+    name: 帮助
+    path: /help/
+  news:
+    name: 新闻
+    path: /news/
+  status:
+    name: 状态
+    path: /status/
+
+# Your site favicon.
+favicon: favicon.ico
+
+# Your site start time.
+since: 2005
+
+# Your site owner.
+owner:
+  name: 北京交通大学
+  link: http://bjtu.edu.cn/
+
+# Your custom info in footer.
+info: <p>由 北京交通大学 计算机与信息技术学院 学生科学技术协会 信息部 维护</p>
+ <p><a href="http://ic.bjtu.edu.cn/" target="_blank">北京交通大学信息中心</a> 提供服务器</p>
+ <p>特别感谢 维护者
+ <a href="http://gaobo.net/" target="_blank">Bob Gao</a>
+ <a href="https://github.com/ideal" target="_blank">Ideal</a>
+ <a href="http://alynx.xyz/" target="_blank">AlynxZhou</a></p>
+
+footer_logo: /images/bjtu_logo.png
+
+busuanzi: true

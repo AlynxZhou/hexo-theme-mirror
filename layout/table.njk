@@ -1,0 +1,83 @@
+{% block table %}
+  <table class="table table-hover">
+    <thead>
+      <tr class="row">
+        <th class="col-sm-8">镜像名称</th>
+        <th class="col-sm-4">同步状态</th>
+      </tr>
+    </thead>
+    <tbody id="indexBody">
+      <div class="sk-wave">
+        <div class="sk-rect sk-rect1"></div>
+        <div class="sk-rect sk-rect2"></div>
+        <div class="sk-rect sk-rect3"></div>
+        <div class="sk-rect sk-rect4"></div>
+        <div class="sk-rect sk-rect5"></div>
+      </div>
+      <!-- {% for k, v in site.data.taskStatus %}
+      <tr class="row">
+        <td class="col-md-8">
+          {% if site.data.descHelp[k]["desc"] %}
+          <a data-toggle="popover" data-trigger="hover" data-placement="left" title="{{ k }}" data-content="{{ site.data.descHelp[k]["desc"] }}" href="{{ "/" + k + "/" }}">{{ k }}</a>
+          {% else %}
+          <a href="{{ "/" + k + "/" }}">{{ k }}</a>
+          {% endif %}
+          {% if site.data.descHelp[k]["help"] %}
+          <a href="{{ site.data.descHelp[k]["help"] }}">
+                  <i title="Help" class="fa fa-question-circle"></i>
+          </a>
+          {% endif %}
+        </td>
+        <td class="col-md-4">
+          {{ site.data.taskStatus[k]["date"] }}
+          {% if site.data.taskStatus[k]["status"] == 2 and site.data.taskStatus[k]["exitcode"] == 0 %}
+          <span class="label label-success">succeed</span>
+          {% elif site.data.taskStatus[k]["status"] == 1 %}
+          <span class="label label-info">syncing</span>
+          {% elif site.data.taskStatus[k]["exitcode"] != 0 %}
+          <span class="label label-warning">failed</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %} -->
+    <tbody>
+  </table>
+  <script type="text/javascript">
+  function buildIndexTable (descHelp) {
+    $.getJSON("/status/task_status.json", function (taskStatus) {
+      var innerHTML = "";
+      for (mirror in taskStatus) {
+        innerHTML += "<tr class=\"row\"><td class=\"col-md-8\">";
+        if (descHelp[mirror] && descHelp[mirror]["desc"]) {
+          innerHTML += ("<a data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"left\" title=\"" + mirror + "\" data-content=\"" + descHelp[mirror]["desc"] + "\" href=\"" + "/" + mirror + "/" + "\">" + mirror + "</a>");
+        } else {
+          innerHTML += ("<a href=\"" + "/" + mirror + "/" + "\">" + mirror + "</a>");
+        }
+        if (descHelp[mirror] && descHelp[mirror]["help"]) {
+          innerHTML += ("  " + "<a href=\"" + descHelp[mirror]["help"] + "\"><i title=\"Help\" class=\"fa fa-question-circle\"></i></a>");
+        }
+        innerHTML += "</td><td class=\"col-md-4\">";
+        innerHTML += taskStatus[mirror]["date"];
+        if (taskStatus[mirror]["status"] === 2 && taskStatus[mirror]["exitcode"] === 0) {
+          innerHTML += ("  " + "<span class=\"label label-success\">succeed</span>");
+        } else if (taskStatus[mirror]["status"] === 1) {
+          innerHTML += ("  " + "<span class=\"label label-info\">syncing</span>");
+        } else if (taskStatus[mirror]["exitcode"] !== 0) {
+          innerHTML += ("  " + "<span class=\"label label-warning\">failed</span>");
+        }
+        innerHTML += "</td></tr>";
+      }
+      $("#indexBody").empty().append(innerHTML);
+      $("[data-toggle=\"popover\"]").popover();
+    });
+  }
+  $(document).ready(function () {
+    $.getJSON("/help/desc_help.json", function (descHelp) {
+      buildIndexTable(descHelp);
+      setInterval(function () {
+        buildIndexTable(descHelp);
+      }, 10000);
+    });
+  });
+  </script>
+{% endblock %}
