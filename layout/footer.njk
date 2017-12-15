@@ -5,7 +5,7 @@
     </script>
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-3 col-md-3" style="margin-bottom: 5px;">
           {% if theme.since and theme.since != date(cur, "YYYY") %}
             <p>CopyLeft © {{ theme.since }} - {{ date(cur, "YYYY") }} <a href="{{ theme.owner.link }}" target="_blank">{{ theme.owner.name }}</a></p>
           {% else %}
@@ -17,12 +17,12 @@
             {% include "busuanzi.njk" %}
           {% endif %}
         </div>
-        <div class="col-lg-5 col-md-5">
+        <div class="col-lg-5 col-md-5" style="margin-bottom: 5px;">
           {% if theme.info %}
             {{ theme.info }}
           {% endif %}
         </div>
-        <div class="col-lg-4 col-md-4">
+        <div class="col-lg-4 col-md-4" style="margin-bottom: 5px;">
           {% if theme.footer_logo %}
             <img class="img-responsive" height=110px width=110px src="{{ theme.footer_logo }}">
           {% endif %}
