@@ -29,7 +29,8 @@ owner:
 
 # Your custom info in footer.
 info: <p>由 北京交通大学 计算机与信息技术学院 学生科学技术协会 信息部 维护</p>
- <p><a href="http://ic.bjtu.edu.cn/" target="_blank">北京交通大学信息中心</a> 提供服务器</p>
+ <p>感谢 <a href="http://ic.bjtu.edu.cn/" 
+ target="_blank">北京交通大学信息中心</a> 提供服务器、存储、带宽</p>
  <p>特别感谢 维护者
  <a href="http://gaobo.net/" target="_blank">Bob Gao</a>
  <a href="https://github.com/ideal" target="_blank">Ideal</a>

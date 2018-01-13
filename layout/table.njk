@@ -9,18 +9,18 @@
     </div>
   </div>
   <script type="text/javascript">
-    function buildIndexTable (descHelp) {
+    function buildIndexTable(descHelp) {
       $.getJSON("/status/task_status.json", function (taskStatus) {
         var innerHTML = "<table class=\"table table-hover\"><thead><tr class=\"row\"><th class=\"col-sm-8\">镜像名称</th><th class=\"col-sm-4\">同步状态</th></tr></thead><tbody>";
         for (mirror in taskStatus) {
           if (taskStatus[mirror]["status"] === 2 && (taskStatus[mirror]["exitcode"] === 0 || (mirror === "pypi" && taskStatus[mirror]["exitcode"] === 1))) {
-            innerHTML += "<tr class=\"row status-succeed\">";
+            innerHTML += "<tr class=\"row\">";
           } else if (taskStatus[mirror]["status"] === 1 || taskStatus[mirror]["status"] === 0) {
-            innerHTML += "<tr class=\"row status-syncing\">";
+            innerHTML += "<tr class=\"row info\">";
           } else if (taskStatus[mirror]["exitcode"] !== 0) {
-            innerHTML += "<tr class=\"row status-failed\">";
+            innerHTML += "<tr class=\"row warning\">";
           } else {
-            innerHTML += "<tr class=\"row status-unknown\">"
+            innerHTML += "<tr class=\"row danger\">"
           }
           innerHTML += "<td class=\"col-md-8\">";
           if (descHelp[mirror] && descHelp[mirror]["desc"]) {
@@ -34,11 +34,13 @@
           innerHTML += "</td><td class=\"col-md-4\">";
           innerHTML += taskStatus[mirror]["date"];
           if (taskStatus[mirror]["status"] === 2 && (taskStatus[mirror]["exitcode"] === 0 || (mirror === "pypi" && taskStatus[mirror]["exitcode"] === 1))) {
-            innerHTML += ("  " + "<span class=\"label label-success\">succeed</span>");
+            innerHTML += ("  " + "<span class=\"label label-success\">success</span>");
           } else if (taskStatus[mirror]["status"] === 1 || taskStatus[mirror]["status"] === 0) {
             innerHTML += ("  " + "<span class=\"label label-info\">syncing</span>");
           } else if (taskStatus[mirror]["exitcode"] !== 0) {
             innerHTML += ("  " + "<span class=\"label label-warning\">failed</span>");
+          } else {
+            innerHTML += ("  " + "<span class=\"label label-danger\">unknown</span>");
           }
           innerHTML += "</td></tr>";
         }
