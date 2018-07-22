@@ -10,11 +10,14 @@
   </div>
   <script type="text/javascript">
     function buildIndexTable(descHelp) {
-      $("#indexTable").empty();
-      $("#sk-wave").show();
+      // $("#indexTable").empty();
+      // $("#sk-wave").show();
       $.getJSON("/status/task_status.json", function (taskStatus) {
         var innerHTML = "<table class=\"table table-hover\"><thead><tr class=\"row\"><th class=\"col-sm-8\">镜像名称</th><th class=\"col-sm-4\">同步状态</th></tr></thead><tbody>";
         for (mirror in taskStatus) {
+          if (descHelp[mirror] == null) {
+            continue;
+          }
           if (taskStatus[mirror]["status"] === 2 && (taskStatus[mirror]["exitcode"] === 0 || (mirror === "pypi" && taskStatus[mirror]["exitcode"] === 1))) {
             innerHTML += "<tr class=\"row\">";
           } else if (taskStatus[mirror]["status"] === 1 || taskStatus[mirror]["status"] === 0) {
@@ -25,10 +28,10 @@
             innerHTML += "<tr class=\"row danger\">"
           }
           innerHTML += "<td class=\"col-md-8\">";
-          if (descHelp[mirror] && descHelp[mirror]["desc"]) {
-            innerHTML += ("<a data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"right\" title=\"" + mirror + "\" data-content=\"" + descHelp[mirror]["desc"] + "\" href=\"" + "/" + mirror + "/" + "\">" + mirror + "</a>");
+          if (descHelp[mirror]["desc"]) {
+            innerHTML += ("<a data-toggle=\"popover\" data-trigger=\"hover\" data-placement=\"right\" title=\"" + mirror + "\" data-content=\"" + descHelp[mirror]["desc"] + "\" href=\"" + descHelp[mirror]["link"] + "\">" + mirror + "</a>");
           } else {
-            innerHTML += ("<a href=\"" + "/" + mirror + "/" + "\">" + mirror + "</a>");
+            innerHTML += ("<a href=\"" + descHelp[mirror]["link"] + "\">" + mirror + "</a>");
           }
           if (descHelp[mirror] && descHelp[mirror]["help"]) {
             innerHTML += ("  " + "<a href=\"" + descHelp[mirror]["help"] + "\"><i title=\"Help\" class=\"fa fa-question-circle\"></i></a>");
@@ -47,7 +50,7 @@
           innerHTML += "</td></tr>";
         }
         innerHTML += "</tbody></table>"
-        $("#indexTable").append(innerHTML);
+        $("#indexTable").empty().append(innerHTML);
         $("#sk-wave").hide();
         $("[data-toggle=\"popover\"]").popover();
       });
